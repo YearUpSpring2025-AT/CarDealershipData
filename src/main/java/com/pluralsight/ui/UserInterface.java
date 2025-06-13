@@ -1,7 +1,7 @@
 package com.pluralsight.ui;
 
-import com.pluralsight.data.ContractDataManager;
-import com.pluralsight.data.DealershipFileManager;
+import com.pluralsight.dao.ContractDataManager;
+import com.pluralsight.dao.DealershipFileManager;
 import com.pluralsight.models.Dealership;
 import com.pluralsight.models.LeaseContract;
 import com.pluralsight.models.SalesContract;

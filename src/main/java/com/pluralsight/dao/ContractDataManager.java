@@ -1,4 +1,4 @@
-package com.pluralsight.data;
+package com.pluralsight.dao;
 
 import com.pluralsight.models.Contract;
 import com.pluralsight.models.LeaseContract;
