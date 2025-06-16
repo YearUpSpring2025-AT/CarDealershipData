@@ -34,20 +34,22 @@ public class DealershipDao {
              PreparedStatement s = c.prepareStatement(dealershipSql);
         ){
             s.setInt(1, dealershipId);
-            ResultSet rs = s.executeQuery();
 
-            if (rs.next()) {
-                d = new Dealership(
-                        rs.getString("name"),
-                        rs.getString("address"),
-                        rs.getString("phone")
-                );
-                List<Vehicle> vehicles = getVehiclesForDealership(dealershipId);
+            try(ResultSet rs = s.executeQuery();){
+                if (rs.next()) {
+                    d = new Dealership(
+                            rs.getString("name"),
+                            rs.getString("address"),
+                            rs.getString("phone")
+                    );
+                    List<Vehicle> vehicles = getVehiclesForDealership(dealershipId);
 
-                for (Vehicle v: vehicles) {
-                    d.addVehicle(v);
+                    for (Vehicle v: vehicles) {
+                        d.addVehicle(v);
+                    }
                 }
             }
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -62,19 +64,21 @@ public class DealershipDao {
         String sql = """
                 SELECT v.*
                 FROM vehicles v
-                JOIN inventory i ON v.VIN = WIN
+                JOIN inventory i ON v.VIN = i.VIN
                 WHERE i.dealership_id = ?
                 """;
         try (Connection c = dataSource.getConnection();
              PreparedStatement s = c.prepareStatement(sql);
         ){
             s.setInt(1, dealershipId);
-            ResultSet rs = s.executeQuery();
 
-            while (rs.next()) {
-                Vehicle vehicle = createVehicleFromResultSet(rs);
-                vehicles.add(vehicle);
+            try(ResultSet rs = s.executeQuery();){
+                while (rs.next()) {
+                    Vehicle vehicle = createVehicleFromResultSet(rs);
+                    vehicles.add(vehicle);
+                }
             }
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

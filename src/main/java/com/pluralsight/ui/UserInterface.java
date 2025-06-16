@@ -1,6 +1,7 @@
 package com.pluralsight.ui;
 
 import com.pluralsight.dao.ContractDataManager;
+import com.pluralsight.dao.DealershipDao;
 import com.pluralsight.dao.DealershipFileManager;
 import com.pluralsight.models.Dealership;
 import com.pluralsight.models.LeaseContract;
@@ -24,7 +25,9 @@ public class UserInterface {
     private void init(){
         fileName = "inventory.csv";
         this.manager = new DealershipFileManager(fileName);
-        this.dealership = manager.getDealership();
+        //this.dealership = manager.getDealership();
+        DealershipDao dealershipDao = new DealershipDao(null);
+        this.dealership = dealershipDao.getDealership(1);
     }
 
     private void displayVehicles(ArrayList<Vehicle> vehicles){
