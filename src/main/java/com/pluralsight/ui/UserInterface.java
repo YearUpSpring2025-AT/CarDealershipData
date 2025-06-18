@@ -7,6 +7,7 @@ import com.pluralsight.models.Dealership;
 import com.pluralsight.models.LeaseContract;
 import com.pluralsight.models.SalesContract;
 import com.pluralsight.models.Vehicle;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,12 @@ public class UserInterface {
     private static Console console = new Console();
     private String fileName;
     private DealershipFileManager manager;
+    private DealershipDao dealershipDao;
+    private int dealershipId = 1;
+
+    public UserInterface(DealershipDao dealershipDao) {
+        this.dealershipDao = dealershipDao;
+    }
 
     public void display() {
         init();
@@ -26,8 +33,8 @@ public class UserInterface {
         fileName = "inventory.csv";
         this.manager = new DealershipFileManager(fileName);
         //this.dealership = manager.getDealership();
-        DealershipDao dealershipDao = new DealershipDao(null);
-        this.dealership = dealershipDao.getDealership(1);
+
+        this.dealership = dealershipDao.getDealership(dealershipId);
     }
 
     private void displayVehicles(ArrayList<Vehicle> vehicles){

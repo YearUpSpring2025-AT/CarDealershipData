@@ -111,4 +111,10 @@ public class VehicleDao {
         // Get all vehicles where SOLD = FALSE
         return new ArrayList<>();
     }
+
+
+    public void addVehicle(Vehicle vehicle, int dealershipId){
+        //go into the database, create a vehicle record, then create an inventory record.
+
+    }
 }

@@ -14,7 +14,7 @@ public class Main {
 
         BasicDataSource basicDataSource = getBasicDataSourceFromArgs(args);
         DealershipDao dealershipDao = new DealershipDao(basicDataSource);
-        UserInterface ui = new UserInterface();
+        UserInterface ui = new UserInterface(dealershipDao);
         ui.display();
     }
 
