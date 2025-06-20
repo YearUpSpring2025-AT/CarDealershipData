@@ -114,6 +114,45 @@ public class VehicleDao {
 
 
     public void addVehicle(Vehicle vehicle, int dealershipId){
+        String insertVehicleSql = """
+                INSERT INTO
+                vehicles
+                (VIN, year, make, model, type, color, odometer, price)
+                VALUE (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+
+        String insertInventorySql = """
+                INSERT INTO
+                inventory
+                (dealership_id, VIN)
+                VALUE (?, ?)
+                """;
+
+        try (
+             Connection c = dataSource.getConnection();
+             PreparedStatement insertVehiclePS = c.prepareStatement(insertVehicleSql);
+             PreparedStatement insertInventoryPS = c.prepareStatement(insertInventorySql);
+        ){
+
+                insertVehiclePS.setInt(1, vehicle.getVin());
+                insertVehiclePS.setInt(2, vehicle.getYear());
+                insertVehiclePS.setString(3, vehicle.getMake());
+                insertVehiclePS.setString(4, vehicle.getModel());
+                insertVehiclePS.setString(5, vehicle.getVehicleType());
+                insertVehiclePS.setString(6, vehicle.getColor());
+                insertVehiclePS.setInt(7, vehicle.getOdometer());
+                insertVehiclePS.setDouble(8, vehicle.getPrice());
+
+                insertVehiclePS.executeUpdate();
+
+                insertInventoryPS.setInt(1, dealershipId);
+                insertInventoryPS.setInt(2, vehicle.getVin());
+
+                insertInventoryPS.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         //go into the database, create a vehicle record, then create an inventory record.
 
     }

@@ -3,6 +3,7 @@ package com.pluralsight.ui;
 import com.pluralsight.dao.ContractDataManager;
 import com.pluralsight.dao.DealershipDao;
 import com.pluralsight.dao.DealershipFileManager;
+import com.pluralsight.dao.VehicleDao;
 import com.pluralsight.models.Dealership;
 import com.pluralsight.models.LeaseContract;
 import com.pluralsight.models.SalesContract;
@@ -19,9 +20,11 @@ public class UserInterface {
     private DealershipFileManager manager;
     private DealershipDao dealershipDao;
     private int dealershipId = 1;
+    private VehicleDao vehicleDao;
 
-    public UserInterface(DealershipDao dealershipDao) {
+    public UserInterface(DealershipDao dealershipDao, VehicleDao vehicleDao) {
         this.dealershipDao = dealershipDao;
+        this.vehicleDao = vehicleDao;
     }
 
     public void display() {
@@ -126,7 +129,7 @@ public class UserInterface {
     }
     public void processGetByMakeModelRequest() {
         String make = console.promptForString("What's make to search for? ");
-        String model = console.promptForString("What's make to search for? ");
+        String model = console.promptForString("What's model to search for? ");
         displayVehicles(dealership.getVehicleByMakeModel(make, model));
 
     }
@@ -168,9 +171,9 @@ public class UserInterface {
         Vehicle newVehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
 
         // Adding the new vehicle  to the dealership
-        dealership.addVehicle(newVehicle);
+//        dealership.addVehicle(newVehicle);
         //DealershipFileManager manager = new DealershipFileManager(fileName);
-        manager.saveDealership(dealership);
+        vehicleDao.addVehicle(newVehicle, dealershipId);
         System.out.println("Vehicle added successfully!");
     }
     public void processRemoveVehicleRequest() {

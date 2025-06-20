@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import com.pluralsight.dao.DealershipDao;
+import com.pluralsight.dao.VehicleDao;
 import com.pluralsight.ui.UserInterface;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -14,7 +15,8 @@ public class Main {
 
         BasicDataSource basicDataSource = getBasicDataSourceFromArgs(args);
         DealershipDao dealershipDao = new DealershipDao(basicDataSource);
-        UserInterface ui = new UserInterface(dealershipDao);
+        VehicleDao vehicleDao = new VehicleDao(basicDataSource);
+        UserInterface ui = new UserInterface(dealershipDao, vehicleDao);
         ui.display();
     }
 
